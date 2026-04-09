@@ -13,23 +13,16 @@ function recordArrival(string $filename): ?array {
 
     if ($hour >= 20 && !($hour == 20 && $minute == 0)) return null;
     $onTime = true;
-    if (($hour >= 8 && $hour <= 19) || ($hour == 20 && $minute == 0)) {
+    if (($hour >= 8 && $hour <= 19 && !($hour == 8 && $minute == 0))
+        || ($hour == 20 && $minute == 0)) {
         $onTime = false;
     }
 
     $arrivals = json_decode(file_get_contents($filename), true) ?? [];
 
-    if ($onTime) {
-        $arrivals[] = [
-            "time" => $timestamp,
-        ];  
-    }
-    else {
-        $arrivals[] = [
-            "time" => $timestamp,
-            "note" => "meškanie"
-        ];  
-    }
+    $record = ["time" => $timestamp];
+    if (!$onTime) $record["note"] = "meškanie";
+    $arrivals[] = $record;
 
     file_put_contents($filename, json_encode($arrivals));
 
