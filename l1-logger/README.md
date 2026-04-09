@@ -7,4 +7,4 @@ An application for logging student arrivals at school. Every time the script is 
 1. Install [MAMP](https://www.mamp.info/)
 2. Copy the `l1-logger` folder into `MAMP/htdocs/`
 3. Start MAMP
-4. Open browser and navigate to `http://localhost/level1-logger/logger1.php`
+4. Open browser and navigate to `http://localhost/l1-logger/logger1.php`
