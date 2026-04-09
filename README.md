@@ -6,4 +6,4 @@ Projects from Wezeo Backend Academy — a course focused on PHP and October CMS.
 
 | Project | Description |
 |---|---|
-| [L1 : Logger 1](./level1-logger) | Student arrival logger |
+| [Level 1 : Logger 1](./l1-logger) | Student arrival logger |
