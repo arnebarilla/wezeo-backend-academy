@@ -5,12 +5,16 @@
  * 
  * @param string $filename path to the JSON file.
  * @return array updated list of arrivals.
+ * REVIEW - toto je detail ale nie vždy sa ti vráti "updated list of arrivals", lebo ak je po 20:00 tak sa vráti null, čo by teda znamenalo že neexistujú žiadne záznamy príchodov
+ * V tomto prípade ti to nič nepokazí ale ak už definuješ také veci ako typ input-u / output-u (čo nie je required samozrejme ale je to fajn robiť) tak by si to mal robiť striktne
  */
 function recordArrival(string $filename): ?array {
     $timestamp = date("Y-m-d H:i:s");
     $hour = (int) date("H");
     $minute = (int) date("i");
 
+    // REVIEW - Viac krát tu robíš jeden check - $hour >= alebo <= ako X a zároveň !($hour == X a $minute == 0) - toto by si si mohol oddeliť do nejakej checkTime funkcie
+    // Potom by sa ti zjednodušil aj zápis $onTime = checkTime(X) && checkTime(Y)
     if ($hour >= 20 && !($hour == 20 && $minute == 0)) return null;
     $onTime = true;
     if (($hour >= 8 && $hour <= 19 && !($hour == 8 && $minute == 0))
@@ -20,7 +24,10 @@ function recordArrival(string $filename): ?array {
 
     $arrivals = json_decode(file_get_contents($filename), true) ?? [];
 
-    $record = ["time" => $timestamp];
+    $record = [
+        "time" => $timestamp
+    ];
+
     if (!$onTime) $record["note"] = "meškanie";
     $arrivals[] = $record;
 
